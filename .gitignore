@@ -1,2 +1,5 @@
 .venv
 app/core/settings.toml
+__pycache__
+migrations/versions
+logs
