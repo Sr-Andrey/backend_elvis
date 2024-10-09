@@ -51,7 +51,7 @@ def main_insert_achievement_to_user(connection:m.UsersAchievements):
 
 @router_main.post(path='/achievement_for_user',
                  status_code=status.HTTP_200_OK,
-                #  response_model=m.AllInfo,
+                 response_model=m.UsersAchievementsWithLang,
                  summary='Отображение достижений по пользователю',)
 def main_achievement_for_user(user:str):
     return f.achievement_for_user(user)

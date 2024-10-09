@@ -9,6 +9,7 @@ from fastapi.exceptions import HTTPException
 
 from app.core.config import API
 from app.api.main_steps.main_steps_router import router_main
+from app.api.statistics.statistics_router import router_statistics
 
 
 @asynccontextmanager
@@ -29,7 +30,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="registration_at_the_workplace",
+    title="backend",
     lifespan=lifespan
 )
 
@@ -43,7 +44,9 @@ async def error_handler(request: Request, exc: HTTPException):
 
 
 app.include_router(router_main)
+app.include_router(router_statistics)
+
 
 if __name__ == "__main__":
-    app.root_path = '/registration_at_the_workplace'
+    app.root_path = '/backend'
     uvicorn.run(app, port=API['port'])

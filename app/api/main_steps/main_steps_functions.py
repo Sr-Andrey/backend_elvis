@@ -141,17 +141,24 @@ def insert_achievement_to_user(connection:m.UsersAchievements):
 
 
 def achievement_for_user(user:str):
-    """информация о выданных пользователю достижениях на выбранном пользователем языке"""
+    """Информация о выданных пользователю достижениях на выбранном пользователем языке"""
+    results_for_user = {}
     with MySession() as session:
         result = session.query(s.Users).where(s.Users.name==user).one_or_none()
 
         if not result:
             raise e.is_not_user
-        print(result.lang_is_russian)
+
+        results_for_user['name'] = result.name
+        results_for_user['achievements'] = []
+
         lang = 'ru' if result.lang_is_russian else 'en'
         for i in result.achievements:
-            print(i.name)
-            print(i.number_of_points)
-            print(i.descriptions)
-            print(text_translator(text=i.descriptions,dest=lang))
-    return result
+            achievement = {
+                'name' : i.name,
+                'number_of_points': i.number_of_points,
+                'descriptions' : text_translator(text=i.descriptions,dest=lang),
+                'is_active': i.is_active
+                }
+            results_for_user['achievements'].append(achievement)
+    return results_for_user

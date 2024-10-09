@@ -34,3 +34,9 @@ class UsersAchievements(BaseModel):
     """Изменения связей"""
     user_name : str
     achievement_name : str
+
+
+class UsersAchievementsWithLang(BaseModel):
+    """Достижения пользователя на опр языке"""
+    name : str
+    achievements : list[Achievements]

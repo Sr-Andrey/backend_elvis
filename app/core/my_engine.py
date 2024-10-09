@@ -15,6 +15,7 @@ parent = os.path.dirname(current)
 sys.path.append(parent)
 
 from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import sessionmaker, Session
 from contextlib import contextmanager
 
@@ -29,3 +30,13 @@ sync_engine = create_engine(f'postgresql+psycopg2://{POSTGRESQL.get("user")}:{PO
                             )
 
 MySession = sessionmaker(bind=sync_engine)
+
+
+
+async_engine = create_async_engine(f'postgresql+asyncpg://{POSTGRESQL.get("user")}:{POSTGRESQL.get("password")}@{POSTGRESQL.get("host")}/{POSTGRESQL.get("database")}?',
+                            pool_size=5, # макс подключений
+                            max_overflow=10, # Доп подключения
+                            echo=POSTGRESQL.get("echo"),
+                            )
+
+MyAsyncSession = async_sessionmaker(bind=async_engine)
